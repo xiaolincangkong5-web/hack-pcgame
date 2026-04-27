@@ -438,7 +438,7 @@ const newsData = {
     day1: [
         { title: "記録的な猛暑、全国で熱中症に警戒", category: "社会", date: "2024/07/15", highlight: false },
         { title: "新型AI「Nexus」、人間並みの会話能力を実証", category: "IT", date: "2024/07/15", highlight: true },
-        { title: "プロ野球：ライオンズが劇的な逆転サヨナラ勝ち", category: "スポーツ", date: "2024/07/15", highlight: false },
+        { title: "プロ野球：ベアーズが劇的な逆転サヨナラ勝ち", category: "スポーツ", date: "2024/07/15", highlight: false },
         { title: "映画「昨日の影」が興行収入100億円突破", category: "エンタメ", date: "2024/07/14", highlight: false }
     ],
     day2: [
