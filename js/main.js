@@ -435,6 +435,11 @@ document.addEventListener('keydown', (e) => {
             // ★ ESCメニューの開閉に合わせて _isMenuOpen を更新
             //    メニューが開いている間は waitClick() がクリックを無視する
             _isMenuOpen = (m.style.display === 'flex');
+            // ★ メニューを閉じたとき、waitClick() を強制解決してクリック待機を再開させる
+            if (!_isMenuOpen) {
+                _clickAbortFlag = true;
+                setTimeout(() => { _clickAbortFlag = false; }, 100);
+            }
             // メニューを開くときに現在の値を反映
             if (m.style.display === 'flex') {
                 document.getElementById('se-slider-debug').value = gameState.seVolume;
