@@ -15,7 +15,7 @@ const WARP_DESTINATIONS = [
     { day: 2, label: 'Day2ハッカー再接続',         skip: 'free_explore' },
     { day: 2, label: 'Day2物色後（PC不通）',       skip: 'post_shatter' },
     { day: 2, label: 'Day2PC再起動後',             skip: 'offline' },
-    { day: 2, label: 'Day2Twoich発見後',           skip: 'day2_twoich' },
+    // { day: 2, label: 'Day2Twoich発見後',           skip: 'day2_twoich' }, // 必要に応じて再有効化
     // ===== Day3 =====
     { day: 3, label: 'Day3導入演出',              skip: 'day3' },
     { day: 3, label: 'Day3最終選択',              skip: 'day3_room' },
