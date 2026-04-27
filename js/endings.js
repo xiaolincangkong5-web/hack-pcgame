@@ -14,14 +14,12 @@ async function triggerEnding(type) {
         'throw': 'ending_throw',
         'runthrough': 'ending_runthrough',
         'police': 'ending_police',
-        'hacked': 'ending_hacked',
-        'flame': 'ending_flame',
-        'discard': 'ending_discard',
-        'neighbor': 'ending_neighbor'
+        'hacked': 'ending_hacked'
     };
     if (endingAchievementMap[type]) {
         unlockAchievement(endingAchievementMap[type]);
     }
+    
     isBlockAllInteraction = true;
     gameState.isHackingSequenceRunning = false; // ハッキング中なら停止
     gameState.isFinalChoicePhase = false; // 最終局面フラグを終了
@@ -189,7 +187,6 @@ async function triggerEnding(type) {
 
 async function triggerFlameEnding() {
     lockSave();
-    unlockAchievement('ending_flame');
     isDialogueRunning = true;
     isBlockAllInteraction = true;
     gameState.isFinalChoicePhase = false;
@@ -300,14 +297,14 @@ async function triggerFlameEnding() {
         blackout.innerHTML = `<div class="blackout-text" style="color:#fff; font-size:3rem; font-weight:bold; animation: shake-anim 0.1s infinite;">🔥 炎 上 🔥</div>`;
         SoundManager.glitch(1.0, 3.0);
         await sleep(3000);
-
-        await showEndingScreen('flame',
-            '炎上エンド',
-            '#ff8c00',
-            '最悪の状況で、最悪の行動をとってしまった。\n\nハッカーに操られるままに放った暴言は、\nさらなる燃料となり、大炎上を引き起こした。\n\nもう、インターネットの世界にも、現実の世界にも、\n俺の居場所はどこにもない。'
-        );
+        unlockAchievement('ending_flame');
     }
     unlockSave();
+    await showEndingScreen('flame',
+        '炎上エンド',
+        '#ff8c00',
+        '最悪の状況で、最悪の行動をとってしまった。\n\nハッカーに操られるままに放った暴言は、\nさらなる燃料となり、大炎上を引き起こした。\n\nもう、インターネットの世界にも、現実の世界にも、\n俺の居場所はどこにもない。'
+    );
 }
 
 async function triggerPCBreakdownPenalty() {
@@ -340,7 +337,6 @@ async function triggerPCBreakdownPenalty() {
 }
 
 async function showEndingScreen(type, title, color, body) {
-    lockSave();
     const blackout = document.getElementById('blackout');
     blackout.style.display = 'flex';
     blackout.style.zIndex = '100000';
@@ -400,7 +396,6 @@ async function showEndingScreen(type, title, color, body) {
     };
     restartBtn.style.transition = 'opacity 1.5s ease';
     restartBtn.style.opacity = '1';
-    unlockSave();
 }
 
 // ============================================================
@@ -411,7 +406,6 @@ let isDiscardEndingRunning = false;
 async function triggerDiscardEnding() {
     if (isDiscardEndingRunning) return;
     lockSave();
-    unlockAchievement('ending_discard');
     isDiscardEndingRunning = true;
     isBlockAllInteraction = true;
     isDialogueRunning = true;
@@ -681,12 +675,11 @@ async function triggerDiscardEnding() {
     }
     
     await sleep(2000);
-    
-    // === フェーズ8: エンド画面 ===
+    unlockSave();
+    unlockAchievement('ending_discard');
     showEndingScreen('discard',
         '廃棄END',
         '#ff9500',
         'すべてを捨てた先に、自由はあった。\n\nPCもデータも、過去の自分も。\nすべてを手放した。\n\n何もかもを失った。\nそれでも、\n自由になった気がした。'
     );
-    unlockSave();
 }

@@ -62,7 +62,7 @@
 ## 📦 ファイル構成
 
 ```
-hack.PCgame.html   — メインHTML（全UI定義）
+index.html         — メインHTML（全UI定義）
 hack_style.css     — スタイルシート
 js/
 ├── main.js        — ゲームエンジン本体
