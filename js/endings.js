@@ -9,17 +9,6 @@ async function triggerEnding(type) {
     lockSave();
     isEndingRunning = true;
     
-    // 実績解除
-    const endingAchievementMap = {
-        'throw': 'ending_throw',
-        'runthrough': 'ending_runthrough',
-        'police': 'ending_police',
-        'hacked': 'ending_hacked'
-    };
-    if (endingAchievementMap[type]) {
-        unlockAchievement(endingAchievementMap[type]);
-    }
-    
     isBlockAllInteraction = true;
     gameState.isHackingSequenceRunning = false; // ハッキング中なら停止
     gameState.isFinalChoicePhase = false; // 最終局面フラグを終了
@@ -73,7 +62,8 @@ async function triggerEnding(type) {
         await showEndingScreen('throw',
             '投棄エンド',
             '#ff6b6b',
-            'すべてを捨てた。\nPCも、データも、あの恐怖も。\n\n翌朝、下の階の住人から苦情が来た。\n「窓からパソコン降ってきたんですけど...」\n\nPCは粉々に砕け散った。\nデータは完全に失われた。\nでも、記憶は消えない。\nネットに拡散された情報も...消えない。'
+            'すべてを捨てた。\nPCも、データも、あの恐怖も。\n\n翌朝、下の階の住人から苦情が来た。\n「窓からパソコン降ってきたんですけど...」\n\nPCは粉々に砕け散った。\nデータは完全に失われた。\nでも、記憶は消えない。\nネットに拡散された情報も...消えない。',
+            'ending_throw'
         );
         
     } else if (type === 'runthrough') {
@@ -109,7 +99,8 @@ async function triggerEnding(type) {
         await showEndingScreen('runthrough',
             '真実エンド',
             '#34c759',
-            'ハッカーの正体を暴き、事件は解決した。\n\nだが、ネットに晒された過去は永遠に残り続ける。\nデジタルタトゥーという言葉の意味を、\n身をもって知ることになった。\n\nそれでも、逃げずに立ち向かった。\nそれだけは、誇っていいはずだ。'
+            'ハッカーの正体を暴き、事件は解決した。\n\nだが、ネットに晒された過去は永遠に残り続ける。\nデジタルタトゥーという言葉の意味を、\n身をもって知ることになった。\n\nそれでも、逃げずに立ち向かった。\nそれだけは、誇っていいはずだ。',
+            'ending_runthrough'
         );
         
     } else if (type === 'police') {
@@ -160,7 +151,8 @@ async function triggerEnding(type) {
         await showEndingScreen('police',
             '逮捕エンド',
             '#ff5f56',
-            '助けを求めた先で、自分の罪が暴かれた。\n\nハッカーの真の目的は、金でも愉快犯でもなく、\n「正義」だったのかもしれない。\n\n...いや、そんなわけがない。\nあいつはただ、人の人生を壊して楽しんでいただけだ。\n\nだが、結果は変わらない。\n僕の人生は、ここで終わった。'
+            '助けを求めた先で、自分の罪が暴かれた。\n\nハッカーの真の目的は、金でも愉快犯でもなく、\n「正義」だったのかもしれない。\n\n...いや、そんなわけがない。\nあいつはただ、人の人生を壊して楽しんでいただけだ。\n\nだが、結果は変わらない。\n僕の人生は、ここで終わった。',
+            'ending_police'
         );
     } else if (type === 'hacked') {
         blackout.style.display = 'flex';
@@ -179,7 +171,8 @@ async function triggerEnding(type) {
         await showEndingScreen('hacked',
             '完全支配エンド',
             '#ff0000',
-            '抵抗は虚しく終わった。\n\nPC内の全データは暗号化され、\n君の秘密はすべて彼の手に渡った。\n\nもはやこのPCは、君のものではない。\n彼の「遊び場」となったのだ。\n\n...君の背後にいるのは、誰だろうね？'
+            '抵抗は虚しく終わった。\n\nPC内の全データは暗号化され、\n君の秘密はすべて彼の手に渡った。\n\nもはやこのPCは、君のものではない。\n彼の「遊び場」となったのだ。\n\n...君の背後にいるのは、誰だろうね？',
+            'ending_hacked'
         );
     }
     unlockSave();
@@ -297,13 +290,13 @@ async function triggerFlameEnding() {
         blackout.innerHTML = `<div class="blackout-text" style="color:#fff; font-size:3rem; font-weight:bold; animation: shake-anim 0.1s infinite;">🔥 炎 上 🔥</div>`;
         SoundManager.glitch(1.0, 3.0);
         await sleep(3000);
-        unlockAchievement('ending_flame');
     }
     unlockSave();
     await showEndingScreen('flame',
         '炎上エンド',
         '#ff8c00',
-        '最悪の状況で、最悪の行動をとってしまった。\n\nハッカーに操られるままに放った暴言は、\nさらなる燃料となり、大炎上を引き起こした。\n\nもう、インターネットの世界にも、現実の世界にも、\n俺の居場所はどこにもない。'
+        '最悪の状況で、最悪の行動をとってしまった。\n\nハッカーに操られるままに放った暴言は、\nさらなる燃料となり、大炎上を引き起こした。\n\nもう、インターネットの世界にも、現実の世界にも、\n俺の居場所はどこにもない。',
+        'ending_flame'
     );
 }
 
@@ -336,7 +329,7 @@ async function triggerPCBreakdownPenalty() {
     unlockSave();
 }
 
-async function showEndingScreen(type, title, color, body) {
+async function showEndingScreen(type, title, color, body, achievementId) {
     const blackout = document.getElementById('blackout');
     blackout.style.display = 'flex';
     blackout.style.zIndex = '100000';
@@ -396,6 +389,11 @@ async function showEndingScreen(type, title, color, body) {
     };
     restartBtn.style.transition = 'opacity 1.5s ease';
     restartBtn.style.opacity = '1';
+    
+    // エンディング画面完全表示後に実績解除
+    if (achievementId) {
+        unlockAchievement(achievementId);
+    }
 }
 
 // ============================================================
@@ -676,10 +674,10 @@ async function triggerDiscardEnding() {
     
     await sleep(2000);
     unlockSave();
-    unlockAchievement('ending_discard');
     showEndingScreen('discard',
         '廃棄END',
         '#ff9500',
-        'すべてを捨てた先に、自由はあった。\n\nPCもデータも、過去の自分も。\nすべてを手放した。\n\n何もかもを失った。\nそれでも、\n自由になった気がした。'
+        'すべてを捨てた先に、自由はあった。\n\nPCもデータも、過去の自分も。\nすべてを手放した。\n\n何もかもを失った。\nそれでも、\n自由になった気がした。',
+        'ending_discard'
     );
 }

@@ -254,7 +254,6 @@ window.pressElevatorFloor = async (floor) => {
 async function triggerNeighborEnding() {
     if (neighborEndingTriggered) return;
     lockSave();
-    unlockAchievement('ending_neighbor');
     neighborEndingTriggered = true;
     isBlockAllInteraction = true;
     
@@ -303,6 +302,7 @@ async function triggerNeighborEnding() {
     isHallwayExplorable = true;
     isBlockAllInteraction = false;
     document.getElementById('hallway-dialogue').innerHTML = "（気になる...でも、今はどうするか考えないと。）";
+    unlockAchievement('ending_neighbor');
     unlockSave();
 }
 
@@ -569,7 +569,6 @@ async function triggerGateballSequence() {
 // 警察署ENDシーケンス
 async function triggerPoliceEndingSequence() {
     lockSave();
-    unlockAchievement('ending_police');
     isBlockAllInteraction = true;
     isPoliceStationFrontActive = false;
     
@@ -662,7 +661,8 @@ async function triggerPoliceEndingSequence() {
     showEndingScreen('police',
         '警察署END',
         '#4488ff',
-        '助けを求めた先で、自分の罪が暴かれた。\n\nハッカーの真の目的は、金でも愉快犯でもなく、\n「正義」だったのかもしれない。\n\n...いや、そんなわけがない。\nあいつはただ、人の人生を壊して楽しんでいただけだ。\n\nだが、結果は変わらない。\n僕の人生は、ここで終わった。'
+        '助けを求めた先で、自分の罪が暴かれた。\n\nハッカーの真の目的は、金でも愉快犯でもなく、\n「正義」だったのかもしれない。\n\n...いや、そんなわけがない。\nあいつはただ、人の人生を壊して楽しんでいただけだ。\n\nだが、結果は変わらない。\n僕の人生は、ここで終わった。',
+        'ending_police'
     );
     
     isBlockAllInteraction = false;
