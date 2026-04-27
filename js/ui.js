@@ -78,6 +78,12 @@ async function typeDialogue(elId, text, speed = null) {
 
 async function waitClick() {
     return new Promise(resolve => {
+        // ★ アボートフラグが立っていたら即座に解決（ESCメニューを閉じた後の復帰用）
+        if (_clickAbortFlag) {
+            _clickAbortFlag = false;
+            resolve();
+            return;
+        }
         const listener = (e) => {
             // ★ ESCメニューやセーブ/ロード画面が開いている間はクリックを無視
             if (_isMenuOpen) return;
