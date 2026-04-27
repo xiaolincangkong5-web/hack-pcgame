@@ -189,6 +189,7 @@ async function triggerEnding(type) {
 
 async function triggerFlameEnding() {
     lockSave();
+    unlockAchievement('ending_flame');
     isDialogueRunning = true;
     isBlockAllInteraction = true;
     gameState.isFinalChoicePhase = false;
@@ -410,6 +411,7 @@ let isDiscardEndingRunning = false;
 async function triggerDiscardEnding() {
     if (isDiscardEndingRunning) return;
     lockSave();
+    unlockAchievement('ending_discard');
     isDiscardEndingRunning = true;
     isBlockAllInteraction = true;
     isDialogueRunning = true;

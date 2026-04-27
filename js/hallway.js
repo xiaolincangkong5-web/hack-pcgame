@@ -254,6 +254,7 @@ window.pressElevatorFloor = async (floor) => {
 async function triggerNeighborEnding() {
     if (neighborEndingTriggered) return;
     lockSave();
+    unlockAchievement('ending_neighbor');
     neighborEndingTriggered = true;
     isBlockAllInteraction = true;
     
@@ -568,6 +569,7 @@ async function triggerGateballSequence() {
 // 警察署ENDシーケンス
 async function triggerPoliceEndingSequence() {
     lockSave();
+    unlockAchievement('ending_police');
     isBlockAllInteraction = true;
     isPoliceStationFrontActive = false;
     
