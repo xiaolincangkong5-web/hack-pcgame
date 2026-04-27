@@ -123,7 +123,7 @@ function collectSaveData() {
         penaltyDone: penaltyDone,
         isSecretNoteOpened: isSecretNoteOpened,
         abortCount: abortCount,
-        isTwitchDiscovered: isTwitchDiscovered,
+        isTwoichDiscovered: isTwoichDiscovered,
         policeCallCount: policeCallCount,
         sendHistory: sendHistory,
         timeoutUntil: timeoutUntil,
@@ -151,7 +151,7 @@ function restoreSaveData(data) {
     penaltyDone = !!data.penaltyDone;
     isSecretNoteOpened = !!data.isSecretNoteOpened;
     abortCount = data.abortCount || 0;
-    isTwitchDiscovered = !!data.isTwitchDiscovered;
+    isTwoichDiscovered = !!data.isTwoichDiscovered;
     policeCallCount = data.policeCallCount || 0;
     sendHistory = Array.isArray(data.sendHistory) ? data.sendHistory : [];
     timeoutUntil = data.timeoutUntil || 0;
@@ -284,7 +284,7 @@ function getSaveSlotInfo(slotIndex) {
         isFinalChoicePhase: !!gs.isFinalChoicePhase,
         isRoomExplorable: !!data.isRoomExplorable,
         isWifiOff: !!data.isWifiOff,
-        isTwitchDiscovered: !!data.isTwitchDiscovered
+        isTwoichDiscovered: !!data.isTwoichDiscovered
     };
 }
 
@@ -310,7 +310,7 @@ const gameState = {
 };
 
 // ネットワーク状態管理
-let isTwitchDiscovered = false; // Twitch配信に気づいたか
+let isTwoichDiscovered = false; // Twoich配信に気づいたか
 let policeCallCount = 0; // 警察への通報回数
 let sendHistory = []; // 送信履歴（スパム検知用）
 let timeoutUntil = 0; // タイムアウト終了時刻
@@ -323,15 +323,15 @@ const icons = {
     zip: `<svg viewBox="0 0 24 24" fill="#ff9500"><path d="M20 6h-8l-2-2H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm-6 10h-4v-2h4v2zm0-4h-4v-2h4v2zm0-4h-4V6h4v2z"/></svg>`,
     lock: `<svg viewBox="0 0 24 24" fill="#ff6b6b"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 10c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg>`,
     browser: `<svg viewBox="0 0 24 24" fill="#34c759"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>`,
-    twitch: `<svg viewBox="0 0 24 24" fill="#9146ff"><path d="M11.571 4.714h1.715v5.143H11.57V4.714zm4.715 0H18v5.143h-1.714V4.714zM6 0L1.714 4.286v15.428h5.143V24l4.286-4.286h3.428L22.286 12V0H6zm14.571 11.143l-3.428 3.428h-3.429l-3 3v-3H6.857V1.714h13.714v9.429z"/></svg>`
+    twoich: `<svg viewBox="0 0 24 24" fill="#9146ff"><path d="M11.571 4.714h1.715v5.143H11.57V4.714zm4.715 0H18v5.143h-1.714V4.714zM6 0L1.714 4.286v15.428h5.143V24l4.286-4.286h3.428L22.286 12V0H6zm14.571 11.143l-3.428 3.428h-3.429l-3 3v-3H6.857V1.714h13.714v9.429z"/></svg>`
 };
 
 const fileSystem = {
     'root': [
         { name: '書類', type: 'folder', target: 'documents' },
         { name: 'ピクチャ', type: 'folder', target: 'pictures' },
-        { name: 'NHKブラウザ', type: 'browser' },
-        { name: 'Twitch', type: 'twitch' },
+        { name: 'NHCKブラウザ', type: 'browser' },
+        { name: 'Twoich', type: 'twoich' },
         { name: '履歴.txt', type: 'text', desc: "これまでの買い物の記録だ。結構使い込んじゃったな。" },
         { name: 'ゴミ箱', type: 'folder', target: 'trash' }
     ],
@@ -355,8 +355,8 @@ const fileSystem = {
     'day1_root': [
         { name: '書類', type: 'folder', target: 'documents' },
         { name: 'ピクチャ', type: 'folder', target: 'pictures' },
-        { name: 'NHKブラウザ', type: 'browser' },
-        { name: 'Twitch', type: 'twitch' },
+        { name: 'NHCKブラウザ', type: 'browser' },
+        { name: 'Twoich', type: 'twoich' },
         { name: '日記_2019.txt', type: 'text', desc: "2019年8月15日\n今日はじいちゃんの誕生日。\n誕生日プレゼントに、じいちゃんが好きな数字『0815』でロックをかけた写真集を送った。\n喜んでくれるといいなぁ。" },
         { name: '🔒 秘密フォルダ', type: 'lock', target: 'secret_locked' },
         { name: '秘密の画像.jpg', type: 'image', desc: "えっちだ...。" },

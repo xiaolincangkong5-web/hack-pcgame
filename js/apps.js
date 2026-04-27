@@ -20,10 +20,10 @@ function renderFiles(win, dirId) {
             clickAction = `onclick="SoundManager.beep(400, 0.1)" ondblclick="showPasswordDialog()"`;
         } else if (item.type === 'folder') {
             clickAction = `onclick="window.updateFiles('${win.id}', '${item.target}')"`;
-        } else if (item.type === 'twitch') {
-            clickAction = `onclick="handleFileClick('Twitch')"`;
+        } else if (item.type === 'twoich') {
+            clickAction = `onclick="handleFileClick('Twoich')"`;
         } else if (item.type === 'browser') {
-            clickAction = `onclick="openWindow('browser', 'NHKブラウザ')"`;
+            clickAction = `onclick="openWindow('browser', 'NHCKブラウザ')"`;
         } else if (item.isTrigger && !scenarioStarted) {
             if (gameState.day === 1) {
                 clickAction = `onclick="SoundManager.beep(400, 0.1)" ondblclick="handleFileDesc('えっちだ...。')"`;
@@ -48,7 +48,7 @@ function renderFiles(win, dirId) {
 }
 
 async function handleFileClick(name) {
-    if (name === 'Twitch') {
+    if (name === 'Twoich') {
         if ((scenarioStarted && scenarioPhase === 1) || isDialogueRunning || isBlockAllInteraction) return;
         if (!isWifiOff) {
             isDialogueRunning = true; await showDesktopDialogue("配信...しようと思ったけど勇気がでないんだよな..."); isDialogueRunning = false; return;
@@ -56,16 +56,16 @@ async function handleFileClick(name) {
         if (!isSecretNoteOpened) {
             isDialogueRunning = true; await showDesktopDialogue("Wifiついてないのに開く意味あるのか...？"); isDialogueRunning = false; return;
         }
-        if (openedApps['twitch']) return;
-        const win = openWindow('twitch', 'Twitch - ライブ配信中');
+        if (openedApps['twoich']) return;
+        const win = openWindow('twoich', 'Twoich - ライブ配信中');
         win.style.width = '800px'; win.style.height = '500px';
-        if (!isTwitchDiscovered) {
-            isTwitchDiscovered = true; unlockWarpDestination('day2_twitch'); isDialogueRunning = true;
+        if (!isTwoichDiscovered) {
+            isTwoichDiscovered = true; unlockWarpDestination('day2_twoich'); isDialogueRunning = true;
             await showDesktopDialogue("なんだ...？これは。俺のPCが勝手に配信されている...？");
             await showDesktopDialogue("いや...いまWifiはつながっていないはず...。");
             isDialogueRunning = false;
         }
-        startTwitchChat(win);
+        startTwoichChat(win);
     } else if (name === '???.txt' || name === '??? .txt') {
         handleSecretNote();
     }
@@ -136,46 +136,46 @@ window.updateFiles = (winId, dirId, isForced = false) => {
 };
 
 // ---------------------------------------------------------
-// Twitchアプリ
+// Twoichアプリ
 // ---------------------------------------------------------
-function renderTwitch(win) {
+function renderTwoich(win) {
     win.querySelector('.window-content').innerHTML = `
-        <div class="twitch-container">
-            <div class="twitch-main">
-                <div class="twitch-video">
+        <div class="twoich-container">
+            <div class="twoich-main">
+                <div class="twoich-video">
                     <div class="obs-mirror">
                         <div class="mirror-text">LIVE: MY DESKTOP</div>
                         <div class="mirror-sub">12,432 Viewers</div>
                     </div>
                 </div>
-                <div class="twitch-info">
-                    <div class="twitch-title">【悲報】このオタクのPC中身ヤバすぎワロタｗｗｗ</div>
-                    <div class="twitch-meta">カテゴリ: リアルタイム暴露</div>
-                    <div class="twitch-actions">
-                        <button onclick="window.sendTwitchMsg('stop')">配信を止めろ！</button>
-                        <button onclick="window.sendTwitchMsg('who')">誰が見てるんだ</button>
-                        <button onclick="window.sendTwitchMsg('police')">警察に通報する</button>
-                        <button onclick="window.sendTwitchMsg('panic')">あああああ！</button>
+                <div class="twoich-info">
+                    <div class="twoich-title">【悲報】このオタクのPC中身ヤバすぎワロタｗｗｗ</div>
+                    <div class="twoich-meta">カテゴリ: リアルタイム暴露</div>
+                    <div class="twoich-actions">
+                        <button onclick="window.sendTwoichMsg('stop')">配信を止めろ！</button>
+                        <button onclick="window.sendTwoichMsg('who')">誰が見てるんだ</button>
+                        <button onclick="window.sendTwoichMsg('police')">警察に通報する</button>
+                        <button onclick="window.sendTwoichMsg('panic')">あああああ！</button>
                     </div>
                 </div>
             </div>
-            <div class="twitch-chat">
+            <div class="twoich-chat">
                 <div class="chat-header">ストリームチャット</div>
-                <div class="chat-msgs" id="twitch-msgs"></div>
+                <div class="chat-msgs" id="twoich-msgs"></div>
                 <div class="chat-input-box"><div class="chat-placeholder">メッセージを送信...</div></div>
             </div>
         </div>`;
 }
 
-let twitchChatInterval = null;
-function startTwitchChat(win) {
-    const msgs = win.querySelector('#twitch-msgs');
+let twoichChatInterval = null;
+function startTwoichChat(win) {
+    const msgs = win.querySelector('#twoich-msgs');
     if (!msgs) return;
     const comments = ["ｗｗｗｗｗｗ", "誰だよこいつｗ", "一般人のPC中身とか誰得だよ", "と言いつつ見ちゃうｗ", "履歴ヤバすぎだろ...", "これ本人気づいてるの？", "うわあああ恥ずか死ぬｗｗ", "特定はよ", "住所どこ？", "こいつの人生終わったな", "ハッカーさんもっとやれｗｗ", "親泣くぞこれ", "卒業アルバムとか晒してほしい", "デスクトップから漂うオタク臭", "中身見られるとか一生のトラウマだろ", "今の表情、絶望してて草", "ネットのゴミ箱へようこそ", "デジタルタトゥー確定ｗ", "次、メールの中身見ようぜ", "一般人のプライバシーｗｗｗ", "晒しイベント最高", "見てるこっちが恥ずかしくなる", "ハッカー有能すぎて草", "通報したところで手遅れなんだよなぁ", "明日から外歩けないね", "名前特定まだー？", "ネットは広大だわ"];
     const users = ["ゲスト12", "名無し", "通りすがり", "ROM", "暇つぶし中", "匿名くん", "ネットの住人", "晒しスレ民", "傍観者A", "悪意の塊"];
-    if (twitchChatInterval) clearInterval(twitchChatInterval);
-    twitchChatInterval = setInterval(() => {
-        if (!openedApps['twitch']) { clearInterval(twitchChatInterval); return; }
+    if (twoichChatInterval) clearInterval(twoichChatInterval);
+    twoichChatInterval = setInterval(() => {
+        if (!openedApps['twoich']) { clearInterval(twoichChatInterval); return; }
         const div = document.createElement('div'); div.className = 't-msg';
         div.innerHTML = `<span class="t-user">${users[Math.floor(Math.random() * users.length)]}:</span> ${comments[Math.floor(Math.random() * comments.length)]}`;
         msgs.appendChild(div); msgs.scrollTop = msgs.scrollHeight;
@@ -183,30 +183,30 @@ function startTwitchChat(win) {
     }, CONSTANTS.TWITCH_CHAT_INTERVAL_MS);
 }
 
-window.sendTwitchMsg = async function(val) {
+window.sendTwoichMsg = async function(val) {
     if (isBlockAllInteraction) return;
     const now = Date.now();
     if (now < timeoutUntil && val !== 'police') {
-        addManualTwitchMsg(`システム: あなたはタイムアウト中です。あと ${Math.ceil((timeoutUntil - now) / 1000)} 秒待ってください。`); return;
+        addManualTwoichMsg(`システム: あなたはタイムアウト中です。あと ${Math.ceil((timeoutUntil - now) / 1000)} 秒待ってください。`); return;
     }
     if (val !== 'police') {
         sendHistory = sendHistory.filter(t => now - t < 1000); sendHistory.push(now);
         if (sendHistory.length >= CONSTANTS.SPAM_MSG_LIMIT) {
-            timeoutUntil = now + (CONSTANTS.SPAM_TIMEOUT_SECONDS * 1000); addManualTwitchMsg("システム: スパム行為を検知しました。" + CONSTANTS.SPAM_TIMEOUT_SECONDS + "秒間の送信禁止処分（タイムアウト）を受けました。"); return;
+            timeoutUntil = now + (CONSTANTS.SPAM_TIMEOUT_SECONDS * 1000); addManualTwoichMsg("システム: スパム行為を検知しました。" + CONSTANTS.SPAM_TIMEOUT_SECONDS + "秒間の送信禁止処分（タイムアウト）を受けました。"); return;
         }
     }
     if (isDialogueRunning) return;
     
     if (val === "stop") {
-        addManualTwitchMsg("Me: 配信を止めてくれ！！見ないでくれ！！"); await sleep(1000);
-        addManualTwitchMsg("視聴者: 本人キターーーー！！"); addManualTwitchMsg("視聴者: 無理でーすｗｗｗ");
+        addManualTwoichMsg("Me: 配信を止めてくれ！！見ないでくれ！！"); await sleep(1000);
+        addManualTwoichMsg("視聴者: 本人キターーーー！！"); addManualTwoichMsg("視聴者: 無理でーすｗｗｗ");
     } else if (val === "who") {
-        addManualTwitchMsg("Me: 誰が見てるんだこれ..."); await sleep(1000);
-        addManualTwitchMsg("視聴者: 1万人以上が見てるぞ"); addManualTwitchMsg("視聴者: ネットは広大だわ");
+        addManualTwoichMsg("Me: 誰が見てるんだこれ..."); await sleep(1000);
+        addManualTwoichMsg("視聴者: 1万人以上が見てるぞ"); addManualTwoichMsg("視聴者: ネットは広大だわ");
     } else if (val === "police") {
         policeCallCount++; isDialogueRunning = true;
         if (policeCallCount === 1) {
-            addManualTwitchMsg("（...プルルル、プルルル）");
+            addManualTwoichMsg("（...プルルル、プルルル）");
             SoundManager.beep(400, 0.5, 'sine', 0.05); await sleep(1000);
             SoundManager.beep(400, 0.5, 'sine', 0.05); await sleep(1000);
             await showDesktopDialogue("「もしもし？そちら警察ですか？ ハッキングされてるんです！」");
@@ -215,42 +215,42 @@ window.sendTwitchMsg = async function(val) {
             await showDesktopDialogue("警察：『あー...ネットのトラブルは、専門の相談窓口へお願いしますね。』");
             await showDesktopDialogue("警察：『とりあえず電源を切って寝てみてください。では。』");
             await showDesktopDialogue("（ツーツー...）");
-            addManualTwitchMsg("Me: 切られた...。");
+            addManualTwoichMsg("Me: 切られた...。");
         } else if (policeCallCount === 2) {
-            addManualTwitchMsg("（...プルルル）");
+            addManualTwoichMsg("（...プルルル）");
             SoundManager.beep(400, 0.5, 'sine', 0.05); await sleep(800);
             await showDesktopDialogue("警察：『...はい、110番です。さっきの方ですか？』");
             await showDesktopDialogue("「そうです！まだ配信が続いてるんです！助けてください！」");
             await showDesktopDialogue("警察：『あのね、同じ件で何度もかけられても困るんですよ。業務妨害になりますよ？』");
             await showDesktopDialogue("警察：『最寄りの警察署に直接行ってください。ガチャッ。』");
-            addManualTwitchMsg("Me: 逆ギレされた...。そんな...。");
+            addManualTwoichMsg("Me: 逆ギレされた...。そんな...。");
         } else if (policeCallCount === 3) {
-            addManualTwitchMsg("（プルル...）");
+            addManualTwoichMsg("（プルル...）");
             SoundManager.beep(400, 0.5, 'sine', 0.05); await sleep(500);
             await showDesktopDialogue("警察：『...はい、110番。いい加減にしてください。次かけたら厳重注意ですよ。』");
             await showDesktopDialogue("「待って、本当に、本当にヤバいんです！！」");
             await showDesktopDialogue("警察：『プツッ。』");
-            addManualTwitchMsg("Me: 話すら聞いてくれない...。");
+            addManualTwoichMsg("Me: 話すら聞いてくれない...。");
         } else {
-            addManualTwitchMsg("（プー、プー、プー...）");
+            addManualTwoichMsg("（プー、プー、プー...）");
             SoundManager.beep(400, 0.2, 'sine', 0.05); await sleep(300);
             SoundManager.beep(400, 0.2, 'sine', 0.05); await sleep(300);
             SoundManager.beep(400, 0.2, 'sine', 0.05); await sleep(300);
             await showDesktopDialogue("...つながらない。着信拒否されたのか...？");
-            addManualTwitchMsg("Me: 警察にまで見捨てられた...。");
+            addManualTwoichMsg("Me: 警察にまで見捨てられた...。");
         }
         await sleep(1000);
         const reaction = ["視聴者: 警察(笑)", "視聴者: 粘着通報ニキ草", "視聴者: 逆ギレされててワロタ", "視聴者: BANされるぞｗ", "視聴者: 通報厨の末路", "視聴者: 警察さん乙"];
-        addManualTwitchMsg(reaction[Math.floor(Math.random() * reaction.length)]);
+        addManualTwoichMsg(reaction[Math.floor(Math.random() * reaction.length)]);
         isDialogueRunning = false;
     } else if (val === "panic") {
-        addManualTwitchMsg("Me: あああああああああ！！"); await sleep(1000);
-        addManualTwitchMsg("視聴者: 壊れたｗｗｗ"); addManualTwitchMsg("視聴者: おもちゃ発見");
+        addManualTwoichMsg("Me: あああああああああ！！"); await sleep(1000);
+        addManualTwoichMsg("視聴者: 壊れたｗｗｗ"); addManualTwoichMsg("視聴者: おもちゃ発見");
     }
 };
 
-function addManualTwitchMsg(text) {
-    const msgs = document.getElementById('twitch-msgs'); if (!msgs) return;
+function addManualTwoichMsg(text) {
+    const msgs = document.getElementById('twoich-msgs'); if (!msgs) return;
     const div = document.createElement('div'); div.className = 't-msg';
     div.innerHTML = `<span class="t-user-me">${text}</span>`;
     msgs.appendChild(div); msgs.scrollTop = msgs.scrollHeight;
@@ -292,7 +292,7 @@ function renderBrowser(win) {
     } else if (day === 3) {
         snsHtml = `
             <div class="sns-header">🔥 全国ニュース - 大炎上中</div>
-            <div class="sns-post sns-hot"><div class="sns-user">@NHK_breaking</div>
+            <div class="sns-post sns-hot"><div class="sns-user">@NHCK_breaking</div>
                 <div class="sns-body">【速報】PCハッキング被害者の個人情報が大量流出。被害者の実名・住所が特定される。サイバー犯罪対策課が捜査開始。</div>
                 <div class="sns-stats">♥ 89,241 🔁 41,205</div></div>
             <div class="sns-post sns-hot"><div class="sns-user">@名無し速報</div>
@@ -309,7 +309,7 @@ function renderBrowser(win) {
     }
 
     const news = (day === 3) ? newsData.day3 : (day === 2 ? newsData.day2 : newsData.day1);
-    let newsHtml = `<div class="news-container"><div class="news-top">NHK NEWS ONLINE</div><div class="news-list">`;
+    let newsHtml = `<div class="news-container"><div class="news-top">NHCK NEWS ONLINE</div><div class="news-list">`;
     if (news && news.length > 0) {
         news.forEach(n => {
             newsHtml += `<div class="news-item ${n.highlight ? 'news-highlight' : ''}"><div class="news-meta"><span>${n.category}</span> <span>${n.date}</span></div><div class="news-title">${n.title}</div></div>`;
@@ -322,9 +322,9 @@ function renderBrowser(win) {
             <div class="browser-bar">
                 <div class="browser-tabs">
                     <div class="browser-tab active" id="tab-sns">SNS</div>
-                    <div class="browser-tab" id="tab-news">NHK News</div>
+                    <div class="browser-tab" id="tab-news">NHCK News</div>
                 </div>
-                <div class="browser-url-bar"><input class="browser-url" id="browser-address" value="https://www.nhk-news.jp/sns" readonly></div>
+                <div class="browser-url-bar"><input class="browser-url" id="browser-address" value="https://www.nhck-news.jp/sns" readonly></div>
             </div>
             <div class="browser-content" style="background:#f5f5f5; color:#111; overflow-y:auto; height:100%;">
                 <div id="page-sns" style="padding:20px;">${snsHtml}</div>
@@ -339,13 +339,12 @@ function renderBrowser(win) {
         btnSns.onclick = (e) => {
             e.stopPropagation(); SoundManager.beep(600, 0.05);
             btnSns.classList.add('active'); btnNews.classList.remove('active');
-            pageSns.style.display = 'block'; pageNews.style.display = 'none'; address.value = "https://www.nhk-news.jp/sns";
+            pageSns.style.display = 'block'; pageNews.style.display = 'none'; address.value = "https://www.nhck-news.jp/sns";
         };
         btnNews.onclick = (e) => {
             e.stopPropagation(); SoundManager.beep(600, 0.05);
             btnNews.classList.add('active'); btnSns.classList.remove('active');
-            pageNews.style.display = 'block'; pageSns.style.display = 'none'; address.value = "https://www.nhk-news.jp/news";
+            pageNews.style.display = 'block'; pageSns.style.display = 'none'; address.value = "https://www.nhck-news.jp/news";
         };
     }
 }
-

@@ -221,7 +221,7 @@ async function triggerFlameEnding() {
         const content = browserWin.querySelector('#page-sns');
         if (!content) return;
         
-        const nhkPost = Array.from(content.querySelectorAll('.sns-user')).find(el => el.textContent === '@NHK_breaking')?.parentElement;
+        const nhckPost = Array.from(content.querySelectorAll('.sns-user')).find(el => el.textContent === '@NHCK_breaking')?.parentElement;
         const matomePost = Array.from(content.querySelectorAll('.sns-user')).find(el => el.textContent === '@まとめ速報')?.parentElement;
         const lawyerPost = Array.from(content.querySelectorAll('.sns-user')).find(el => el.textContent === '@弁護士_田中')?.parentElement;
         const neighborPost = Array.from(content.querySelectorAll('.sns-user')).find(el => el.textContent === '@ご近所さん')?.parentElement;
@@ -284,10 +284,10 @@ async function triggerFlameEnding() {
         await addReaction(neighborPost, "場所特定班まだー？");
         await addReaction(neighborPost, "まじで近所なら特定余裕だわ");
         
-        await typeComment(nhkPost, "いつもお疲れ様です。情報発信ありがとうございます。");
-        await addReaction(nhkPost, "ここだけ謎に丁寧で草");
-        await addReaction(nhkPost, "ハッカーに人格乗っ取られてる説");
-        await addReaction(nhkPost, "ギャグセンス高すぎだろｗｗ");
+        await typeComment(nhckPost, "いつもお疲れ様です。情報発信ありがとうございます。");
+        await addReaction(nhckPost, "ここだけ謎に丁寧で草");
+        await addReaction(nhckPost, "ハッカーに人格乗っ取られてる説");
+        await addReaction(nhckPost, "ギャグセンス高すぎだろｗｗ");
         
         await sleep(2000);
         
