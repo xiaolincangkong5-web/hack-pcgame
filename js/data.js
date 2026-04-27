@@ -264,6 +264,27 @@ function deleteAllSaveData() {
     } catch(e) { /* ignore */ }
 }
 
+// 全ストレージデータをクリア（セーブ・実績・ワープ・音量設定）
+function clearAllStorage() {
+    try {
+        // セーブデータ
+        for (let i = 0; i < SAVE_SLOT_COUNT; i++) {
+            localStorage.removeItem(SAVE_SLOT_KEYS[i]);
+        }
+        localStorage.removeItem(AUTOSAVE_KEY);
+        // 実績
+        localStorage.removeItem('pchack_achievements');
+        // ワープ解放状態
+        localStorage.removeItem(UNLOCKED_WARP_KEY);
+        // 音量設定
+        localStorage.removeItem('pchack_volume');
+        // sessionStorage もクリア
+        sessionStorage.removeItem('skipPhase');
+        sessionStorage.removeItem('pchack_skip_warning');
+        sessionStorage.removeItem('pchack_pending_load');
+    } catch(e) { /* ignore */ }
+}
+
 // スロット情報を取得（セーブ/ロード画面表示用）- ★ readSaveData() を使用（リロード防止）
 function getSaveSlotInfo(slotIndex) {
     const data = readSaveData(slotIndex);

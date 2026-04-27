@@ -818,6 +818,37 @@ window.addEventListener('load', () => {
         });
     }
 
+    // タイトル画面「ストレージをクリア」（確認ダイアログ付き）
+    const clearBtn = document.getElementById('title-clear-btn');
+    if (clearBtn) {
+        clearBtn.addEventListener('click', () => {
+            // 確認ダイアログ
+            const overlay = document.createElement('div');
+            overlay.style.cssText = 'position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,0.85);display:flex;align-items:center;justify-content:center;z-index:999999;font-family:\'Noto Sans JP\',sans-serif;';
+            overlay.innerHTML = `
+                <div style="background:rgba(30,30,30,0.95);border:2px solid #ff4444;border-radius:12px;padding:30px 40px;text-align:center;max-width:420px;box-shadow:0 0 40px rgba(255,50,50,0.3);">
+                    <div style="font-size:1.5rem;color:#ff6666;margin-bottom:20px;font-weight:bold;">⚠ 警告</div>
+                    <div style="font-size:1.1rem;color:#fff;margin-bottom:10px;line-height:1.6;">全てのデータを削除しますか？</div>
+                    <div style="font-size:0.85rem;color:rgba(255,255,255,0.5);margin-bottom:25px;line-height:1.5;">削除されるもの：<br>セーブデータ / 実績 / ワープ解放状態 / 音量設定<br><span style="color:#ff6666;">この操作は取り消せません。</span></div>
+                    <div style="display:flex;gap:15px;justify-content:center;">
+                        <button id="clear-confirm-btn" style="background:#cc3333;color:#fff;border:2px solid #ff6666;padding:12px 30px;font-size:1.1rem;border-radius:8px;cursor:pointer;font-weight:bold;transition:all 0.2s;">削除する</button>
+                        <button id="clear-cancel-btn" style="background:#444;color:#fff;border:2px solid #888;padding:12px 30px;font-size:1.1rem;border-radius:8px;cursor:pointer;font-weight:bold;transition:all 0.2s;">キャンセル</button>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(overlay);
+
+            document.getElementById('clear-confirm-btn').onclick = () => {
+                clearAllStorage();
+                document.body.removeChild(overlay);
+                location.reload();
+            };
+            document.getElementById('clear-cancel-btn').onclick = () => {
+                document.body.removeChild(overlay);
+            };
+        });
+    }
+
     // タイトル設定画面「戻る」
     const titleSettingsBack = document.getElementById('title-settings-back-btn');
     if (titleSettingsBack) {
