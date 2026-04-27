@@ -15,7 +15,7 @@ const WARP_DESTINATIONS = [
     { day: 2, label: 'Day2ハッカー再接続',         skip: 'free_explore' },
     { day: 2, label: 'Day2物色後（PC不通）',       skip: 'post_shatter' },
     { day: 2, label: 'Day2PC再起動後',             skip: 'offline' },
-    { day: 2, label: 'Day2Twitch発見後',           skip: 'day2_twitch' },
+    { day: 2, label: 'Day2Twoich発見後',           skip: 'day2_twoich' },
     // ===== Day3 =====
     { day: 3, label: 'Day3導入演出',              skip: 'day3' },
     { day: 3, label: 'Day3最終選択',              skip: 'day3_room' },
@@ -54,27 +54,27 @@ document.getElementById('icon-files').ondblclick = () => {
     const grid = document.getElementById('icons-grid');
     if (!grid) return;
 
-    // Twitch
-    const twitchIcon = document.createElement('div');
-    twitchIcon.className = 'icon-item';
-    twitchIcon.id = 'icon-twitch';
-    twitchIcon.innerHTML = `<div class="icon-wrapper"><svg viewBox="0 0 24 24" fill="#9146ff"><path d="M11.571 4.714h1.715v5.143H11.57V4.714zm4.715 0H18v5.143h-1.714V4.714zM6 0L1.714 4.286v15.428h5.143V24l4.286-4.286h3.428L22.286 12V0H6zm14.571 11.143l-3.428 3.428h-3.429l-3 3v-3H6.857V1.714h13.714v9.429z"/></svg></div><span class="icon-label">Twitch</span>`;
-    twitchIcon.onclick = () => SoundManager.beep(400, 0.1);
-    twitchIcon.ondblclick = () => { 
-        if (gameState.day === 3) return; 
-        handleFileClick('Twitch'); 
+    // Twoich
+    const twoichIcon = document.createElement('div');
+    twoichIcon.className = 'icon-item';
+    twoichIcon.id = 'icon-twoich';
+    twoichIcon.innerHTML = `<div class="icon-wrapper"><svg viewBox="0 0 24 24" fill="#9146ff"><path d="M11.571 4.714h1.715v5.143H11.57V4.714zm4.715 0H18v5.143h-1.714V4.714zM6 0L1.714 4.286v15.428h5.143V24l4.286-4.286h3.428L22.286 12V0H6zm14.571 11.143l-3.428 3.428h-3.429l-3 3v-3H6.857V1.714h13.714v9.429z"/></svg></div><span class="icon-label">Twoich</span>`;
+    twoichIcon.onclick = () => SoundManager.beep(400, 0.1);
+    twoichIcon.ondblclick = () => {
+        if (gameState.day === 3) return;
+        handleFileClick('Twoich');
     };
-    grid.appendChild(twitchIcon);
+    grid.appendChild(twoichIcon);
 
     // Browser
     const browserIcon = document.createElement('div');
     browserIcon.className = 'icon-item';
     browserIcon.id = 'icon-browser';
-    browserIcon.innerHTML = `<div class="icon-wrapper"><svg viewBox="0 0 24 24" fill="#34c759"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg></div><span class="icon-label">NHKブラウザ</span>`;
+    browserIcon.innerHTML = `<div class="icon-wrapper"><svg viewBox="0 0 24 24" fill="#34c759"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg></div><span class="icon-label">NHCKブラウザ</span>`;
     browserIcon.onclick = () => SoundManager.beep(400, 0.1);
-    browserIcon.ondblclick = () => { 
-        if (gameState.day === 3 && isDialogueRunning) return; 
-        openWindow('browser', 'NHKブラウザ'); 
+    browserIcon.ondblclick = () => {
+        if (gameState.day === 3 && isDialogueRunning) return;
+        openWindow('browser', 'NHCKブラウザ');
     };
     grid.appendChild(browserIcon);
 })();
@@ -249,13 +249,13 @@ function buildSlotHTML(slotIndex, label, info, isSave) {
         //    1. routerShielded → 物色後（PC不通）
         //    2. intrusionSequenceSeen → ハッカー再接続
         //    3. scenarioPhase === 2 → PC再起動後（??? .txt出現）
-        //    4. isTwitchDiscovered → Twitch発見後（部屋で寝る選択肢）
+        //    4. isTwoichDiscovered → Twoich発見後（部屋で寝る選択肢）
         //    5. それ以外 → デスクトップ探索
         //    ※ scenarioPhase === 1 は lockSave() でセーブ禁止のためラベル不要
         if (info.routerShielded) phaseStr = 'Day2物色後（PC不通）';
         else if (info.intrusionSequenceSeen) phaseStr = 'Day2ハッカー再接続';
         else if (info.scenarioPhase === 2) phaseStr = 'Day2PC再起動後';
-        else if (info.isTwitchDiscovered) phaseStr = 'Day2Twitch発見後';
+        else if (info.isTwoichDiscovered) phaseStr = 'Day2Twoich発見後';
         else phaseStr = 'Day2デスクトップ探索';
     } else if (info.day === 3) {
         if (info.scenarioPhase === 0 && !info.isFinalChoicePhase) phaseStr = 'Day3導入演出';
@@ -525,11 +525,11 @@ function startGame() {
                 AmbientManager.play(2);
                 showDesktopDialogue('（PCを起動しよう...）');
             }, 500);
-        } else if (p === 'day2_twitch') {
-            // ★ Day2Twitch発見後（部屋で寝る選択肢が出る状態）
+        } else if (p === 'day2_twoich') {
+            // ★ Day2Twoich発見後（部屋で寝る選択肢が出る状態）
             gameState.day = 2;
             scenarioStarted = true;
-            isTwitchDiscovered = true;
+            isTwoichDiscovered = true;
             document.getElementById('desktop').style.display = 'none';
             document.getElementById('room-view').style.display = 'flex';
             isRoomExplorable = true;
@@ -663,7 +663,7 @@ window.addEventListener('load', () => {
                     //    1. routerShielded → 部屋探索（ルーターがシールドされている）
                     //    2. intrusionSequenceSeen → ハッキング再開（ファイル物色後）
                     //    3. scenarioPhase === 2 → ルーター電源オフ後（playDesktopSequenceで??? .txt出現）
-                    //    4. isTwitchDiscovered → Twitch発見後（部屋で寝る選択肢が出る）
+                    //    4. isTwoichDiscovered → Twoich発見後（部屋で寝る選択肢が出る）
                     //    5. それ以外 → デスクトップ初期状態
                     if (gameState.routerShielded) {
                         document.getElementById('desktop').style.display = 'none';
@@ -682,8 +682,8 @@ window.addEventListener('load', () => {
                         setTimeout(function() {
                             playDesktopSequence();
                         }, 500);
-                    } else if (isTwitchDiscovered) {
-                        // ★ Twitch発見後：部屋で寝る選択肢が出る状態
+                    } else if (isTwoichDiscovered) {
+                        // ★ Twoich発見後：部屋で寝る選択肢が出る状態
                         document.getElementById('desktop').style.display = 'none';
                         document.getElementById('room-view').style.display = 'flex';
                         isRoomExplorable = true;

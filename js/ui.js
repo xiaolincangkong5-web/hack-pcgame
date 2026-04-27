@@ -302,7 +302,7 @@ function openWindow(id, title, isDraggable = true, canClose = true) {
     } else if (id === 'files') {
         const dirId = (gameState.day === 1) ? 'day1_root' : 'root';
         renderFiles(win, dirId);
-    } else if (id === 'twitch') renderTwitch(win);
+    } else if (id === 'twoich') renderTwoich(win);
     else if (id === 'browser') renderBrowser(win);
     
     document.getElementById('window-manager').appendChild(win);
@@ -317,7 +317,7 @@ function openWindow(id, title, isDraggable = true, canClose = true) {
 }
 
 function closeWindow(id) {
-    if (id === 'twitch' && isDialogueRunning) return;
+    if (id === 'twoich' && isDialogueRunning) return;
     
     const win = openedApps[id];
     if (win) {
@@ -392,8 +392,8 @@ function setupWindowInteractions(win, id, isDraggable = true, canClose = true) {
             SoundManager.beep(400, 0.1); return; 
         }
 
-        // 5. Twitchの特定クローズイベント
-        if (id === 'twitch') {
+        // 5. Twoichの特定クローズイベント
+        if (id === 'twoich') {
             closeWindow(id);
             setTimeout(async () => {
                 isDialogueRunning = true;
@@ -500,7 +500,7 @@ function setupDraggableNetwork(fake) {
         SoundManager.init();
         e.stopPropagation();
         
-        if (!isTwitchDiscovered) {
+        if (!isTwoichDiscovered) {
             handleFileDesc("ちゃんとWifiは切れているようだ。");
             return;
         }

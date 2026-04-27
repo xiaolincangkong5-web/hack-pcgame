@@ -103,7 +103,7 @@ window.interactRoom = async (objId) => {
             } else {
                 await showRoomDialogue("...もう少しだけ起きていよう。");
             }
-        } else if (gameState.day === 2 && isTwitchDiscovered) {
+        } else if (gameState.day === 2 && isTwoichDiscovered) {
             await showRoomDialogue("もう画面を見たくない...今日は寝よう。");
             await showRoomDialogue("明日になれば、きっと大丈夫だ...そう思いたい。");
             const c = await showRoomChoices([{text: "寝る", val: "sleep"}, {text: "まだ起きてる", val: "stay"}]);
