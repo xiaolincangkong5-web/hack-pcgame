@@ -311,7 +311,7 @@ async function playHackerBrowsingSequence(noteWin) {
     isDialogueRunning = false;
     if (penaltyDone) return;
     const choice2 = await showChoices(noteWin, [
-        { text: "おじん？", value: "ojin" },
+        { text: "おじん？", value: "ojin", glitch: true },
         { text: "何が目的だ？", value: "target" }
     ]);
     

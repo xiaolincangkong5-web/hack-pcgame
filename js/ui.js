@@ -145,12 +145,28 @@ async function showChoices(win, choices) {
     const notepadContainer = win.querySelector('.notepad-container');
     if (notepadContainer) notepadContainer.scrollTop = notepadContainer.scrollHeight;
 
+    // 文字が切り替わる演出用のインターバルを管理
+    const glitchIntervals = [];
+
     return new Promise(resolve => {
         choices.forEach(c => {
             const btn = document.createElement('button');
             btn.className = 'choice-btn'; btn.textContent = c.text;
+
+            // glitchフラグがtrueの場合、「お」と「こ」を0.8秒ごとに切り替え
+            if (c.glitch) {
+                let showO = true;
+                const interval = setInterval(() => {
+                    showO = !showO;
+                    btn.textContent = showO ? c.text : c.text.replace('お', 'こ');
+                }, 800);
+                glitchIntervals.push(interval);
+            }
+
             btn.onclick = (e) => {
                 e.stopPropagation(); SoundManager.beep(800, 0.1);
+                // すべてのglitchインターバルを停止
+                glitchIntervals.forEach(id => clearInterval(id));
                 container.style.display = 'none'; 
                 isDialogueRunning = wasDialogueRunning;
                 resolve(c.value);
