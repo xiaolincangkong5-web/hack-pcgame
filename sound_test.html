@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>サウンドテスト - hack.PCgame</title>
+    <link rel="stylesheet" href="hack_style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Outfit:wght@300;400;700&family=Noto+Sans+JP:wght@400;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background: #0a0a14;
+            font-family: 'Inter', 'Noto Sans JP', sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            overflow-y: auto;
+            user-select: none;
+            padding: 20px;
+        }
+
+        .test-container {
+            width: 100%;
+            max-width: 720px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: var(--glass-shadow);
+        }
+
+        .test-header {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+
+        .test-header h1 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 2rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #00d2ff, #7b2ff7);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: 2px;
+        }
+
+        .test-header p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-top: 8px;
+        }
+
+        .section {
+            margin-bottom: 28px;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 14px;
+            padding-bottom: 6px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .section-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--accent-color);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+        }
+
+        .stop-all-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 4px 12px;
+            border: 1px solid rgba(255, 80, 80, 0.3);
+            border-radius: 6px;
+            background: rgba(255, 80, 80, 0.1);
+            color: #ff7070;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .stop-all-btn:hover {
+            background: rgba(255, 80, 80, 0.25);
+            border-color: #ff5050;
+            transform: scale(1.05);
+        }
+
+        /* 音量スライダー */
+        .volume-section {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 12px;
+            padding: 16px 20px;
+            margin-bottom: 28px;
+        }
+
+        .volume-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin: 6px 0;
+        }
+
+        .volume-row label {
+            min-width: 80px;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .volume-row input[type="range"] {
+            flex: 1;
+            -webkit-appearance: none;
+            appearance: none;
+            height: 4px;
+            border-radius: 2px;
+            background: linear-gradient(90deg, #00d2ff, #7b2ff7);
+            outline: none;
+            cursor: pointer;
+        }
+
+        .volume-row input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: #fff;
+            border: 2px solid var(--accent-color);
+            cursor: pointer;
+            transition: 0.15s;
+        }
+
+        .volume-row input[type="range"]::-webkit-slider-thumb:hover {
+            transform: scale(1.2);
+        }
+
+        .volume-row .vol-value {
+            min-width: 48px;
+            text-align: right;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            color: var(--text-primary);
+        }
+
+        /* 効果音ボタングリッド */
+        .sound-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 10px;
+        }
+
+        .sound-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 12px 10px;
+            border: 1px solid rgba(255,255,255,0.15);
+            border-radius: 10px;
+            background: rgba(255,255,255,0.05);
+            color: var(--text-primary);
+            font-family: 'Inter', 'Noto Sans JP', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .sound-btn:hover {
+            background: rgba(0, 210, 255, 0.15);
+            border-color: var(--accent-color);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0, 210, 255, 0.2);
+        }
+
+        .sound-btn:active {
+            transform: translateY(0);
+            background: rgba(0, 210, 255, 0.25);
+        }
+
+        .sound-btn .icon {
+            font-size: 1.1rem;
+        }
+
+        .sound-btn .label {
+            font-size: 0.8rem;
+            white-space: nowrap;
+        }
+
+        /* 環境音コントロール */
+        .ambient-controls {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .ambient-btn {
+            padding: 12px 24px;
+            border: 1px solid rgba(255,255,255,0.15);
+            border-radius: 10px;
+            background: rgba(255,255,255,0.05);
+            color: var(--text-primary);
+            font-family: 'Inter', 'Noto Sans JP', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            flex: 1;
+            min-width: 100px;
+            text-align: center;
+        }
+
+        .ambient-btn:hover {
+            background: rgba(123, 47, 247, 0.15);
+            border-color: #7b2ff7;
+            transform: translateY(-2px);
+        }
+
+        .ambient-btn.active {
+            background: rgba(123, 47, 247, 0.25);
+            border-color: #7b2ff7;
+            box-shadow: 0 0 20px rgba(123, 47, 247, 0.3);
+        }
+
+        .ambient-btn.stop-btn {
+            border-color: rgba(255, 80, 80, 0.3);
+        }
+
+        .ambient-btn.stop-btn:hover {
+            background: rgba(255, 80, 80, 0.15);
+            border-color: #ff5050;
+        }
+
+        /* フッター */
+        .footer {
+            text-align: center;
+            margin-top: 32px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255,255,255,0.08);
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.2s;
+        }
+
+        .back-link:hover {
+            color: var(--accent-color);
+        }
+
+        /* 再生中インジケーター */
+        .playing-indicator {
+            display: none;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.75rem;
+            color: var(--accent-color);
+            font-family: 'JetBrains Mono', monospace;
+            margin-top: 8px;
+            padding: 6px 12px;
+            background: rgba(0, 210, 255, 0.1);
+            border-radius: 6px;
+        }
+
+        .playing-indicator.visible {
+            display: inline-flex;
+        }
+
+        .playing-indicator .dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--accent-color);
+            animation: pulse-dot 0.8s ease infinite;
+        }
+
+        @keyframes pulse-dot {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.3; transform: scale(0.7); }
+        }
+
+        /* ファイルSEのグリッド */
+        .file-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+            gap: 8px;
+        }
+
+        .file-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 12px;
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 8px;
+            background: rgba(255,255,255,0.03);
+            color: var(--text-primary);
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-family: 'Inter', 'Noto Sans JP', sans-serif;
+        }
+
+        .file-btn:hover {
+            background: rgba(0, 210, 255, 0.1);
+            border-color: var(--accent-color);
+            transform: translateY(-1px);
+        }
+
+        .file-btn .icon {
+            font-size: 1rem;
+        }
+
+        .file-btn .filename {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7rem;
+            color: var(--text-secondary);
+        }
+
+        /* ステータスバー */
+        .status-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 16px;
+            padding: 10px 16px;
+            background: rgba(0,0,0,0.3);
+            border-radius: 8px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+        }
+
+        .status-bar .status-ok {
+            color: #4caf50;
+        }
+
+        .status-bar .status-ng {
+            color: #ff5252;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <!-- ヘッダー -->
+        <div class="test-header">
+            <h1>🎵 サウンドテスト</h1>
+            <p>hack.PCgame 効果音・BGM 試聴ツール</p>
+        </div>
+
+        <!-- 音量設定 -->
+        <div class="volume-section">
+            <div class="section-title">音量設定</div>
+            <div class="volume-row">
+                <label>🔊 SE</label>
+                <input type="range" id="se-slider" min="0" max="100" value="100">
+                <span class="vol-value" id="se-value">100%</span>
+            </div>
+            <div class="volume-row">
+                <label>🎵 BGM</label>
+                <input type="range" id="bgm-slider" min="0" max="100" value="100">
+                <span class="vol-value" id="bgm-value">100%</span>
+            </div>
+        </div>
+
+        <!-- プログラム生成効果音 -->
+        <div class="section">
+            <div class="section-header">
+                <span class="section-title">プログラム生成効果音</span>
+                <button class="stop-all-btn" onclick="stopGeneratedSE()">⏹ 停止</button>
+            </div>
+            <div class="sound-grid">
+                <button class="sound-btn" onclick="playSE('beep')">
+                    <span class="icon">🔊</span>
+                    <span class="label">beep</span>
+                </button>
+                <button class="sound-btn" onclick="playSE('glitch')">
+                    <span class="icon">📡</span>
+                    <span class="label">glitch</span>
+                </button>
+                <button class="sound-btn" onclick="playSE('thud')">
+                    <span class="icon">💥</span>
+                    <span class="label">thud</span>
+                </button>
+                <button class="sound-btn" onclick="playSE('horrorImpact')">
+                    <span class="icon">👻</span>
+                    <span class="label">horrorImpact</span>
+                </button>
+                <button class="sound-btn" onclick="playSE('type')">
+                    <span class="icon">⌨️</span>
+                    <span class="label">type</span>
+                </button>
+                <button class="sound-btn" onclick="playSE('knock')">
+                    <span class="icon">🚪</span>
+                    <span class="label">knock</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- 外部MP3ファイル -->
+        <div class="section">
+            <div class="section-header">
+                <span class="section-title">外部MP3ファイル</span>
+                <button class="stop-all-btn" onclick="stopFileSE()">⏹ 停止</button>
+            </div>
+            <div class="file-grid" id="file-se-list">
+                <!-- JSで動的に生成 -->
+            </div>
+        </div>
+
+        <!-- 環境音 -->
+        <div class="section">
+            <div class="section-title">環境音（BGM）</div>
+            <div class="ambient-controls">
+                <button class="ambient-btn" onclick="playAmbient(1)">🌙 Day 1</button>
+                <button class="ambient-btn" onclick="playAmbient(2)">🌆 Day 2</button>
+                <button class="ambient-btn" onclick="playAmbient(3)">🌃 Day 3</button>
+                <button class="ambient-btn stop-btn" onclick="stopAmbient()">⏹ 停止</button>
+            </div>
+            <div class="playing-indicator" id="ambient-indicator">
+                <span class="dot"></span>
+                <span id="ambient-status">停止中</span>
+            </div>
+        </div>
+
+        <!-- ステータス -->
+        <div class="status-bar">
+            <span>AudioContext: <span id="audio-status" class="status-ng">未初期化</span></span>
+            <span id="last-played">最終再生: -</span>
+        </div>
+
+        <!-- フッター -->
+        <div class="footer">
+            <a href="index.html" class="back-link">← ゲームに戻る</a>
+        </div>
+    </div>
+
+    <script>
+        // ============================================================
+        // gameState の定義（audio.js が参照するため）
+        // ============================================================
+        const gameState = {
+            seVolume: 100,
+            bgmVolume: 100
+        };
+
+        // 音量保存（ゲームと独立）
+        function saveVolumeSettings() {
+            try {
+                localStorage.setItem('pchack_soundtest_volume', JSON.stringify({
+                    seVolume: gameState.seVolume,
+                    bgmVolume: gameState.bgmVolume
+                }));
+            } catch(e) {}
+        }
+
+        function loadVolumeSettings() {
+            try {
+                const data = JSON.parse(localStorage.getItem('pchack_soundtest_volume'));
+                if (data) {
+                    gameState.seVolume = data.seVolume ?? 100;
+                    gameState.bgmVolume = data.bgmVolume ?? 100;
+                }
+            } catch(e) {}
+        }
+        loadVolumeSettings();
+    </script>
+    <script src="js/audio.js"></script>
+    <script>
+        // ============================================================
+        // 音量スライダーの初期化
+        // ============================================================
+        const seSlider = document.getElementById('se-slider');
+        const bgmSlider = document.getElementById('bgm-slider');
+        const seValue = document.getElementById('se-value');
+        const bgmValue = document.getElementById('bgm-value');
+
+        seSlider.value = gameState.seVolume;
+        bgmSlider.value = gameState.bgmVolume;
+        seValue.textContent = gameState.seVolume + '%';
+        bgmValue.textContent = gameState.bgmVolume + '%';
+
+        seSlider.addEventListener('input', () => {
+            gameState.seVolume = parseInt(seSlider.value);
+            seValue.textContent = gameState.seVolume + '%';
+            saveVolumeSettings();
+        });
+
+        bgmSlider.addEventListener('input', () => {
+            gameState.bgmVolume = parseInt(bgmSlider.value);
+            bgmValue.textContent = gameState.bgmVolume + '%';
+            if (AmbientManager.masterGain) {
+                AmbientManager.updateVolume();
+            }
+            saveVolumeSettings();
+        });
+
+        // ============================================================
+        // AudioContext 状態監視
+        // ============================================================
+        function updateAudioStatus() {
+            const el = document.getElementById('audio-status');
+            if (SoundManager.ctx) {
+                el.textContent = SoundManager.ctx.state;
+                el.className = SoundManager.ctx.state === 'running' ? 'status-ok' : 'status-ng';
+            } else {
+                el.textContent = '未初期化';
+                el.className = 'status-ng';
+            }
+        }
+
+        // ユーザー操作でAudioContextを再開
+        function ensureAudioContext() {
+            SoundManager.init();
+            if (SoundManager.ctx && SoundManager.ctx.state === 'suspended') {
+                SoundManager.ctx.resume();
+            }
+            updateAudioStatus();
+        }
+
+        // 初回クリックでAudioContext初期化
+        document.addEventListener('click', ensureAudioContext, { once: true });
+
+        // ============================================================
+        // 効果音再生
+        // ============================================================
+        let lastPlayed = document.getElementById('last-played');
+
+        function playSE(name) {
+            ensureAudioContext();
+            switch(name) {
+                case 'beep':
+                    SoundManager.beep(440, 0.15, 'sine', 0.03);
+                    break;
+                case 'glitch':
+                    SoundManager.glitch(0.3, 1.0);
+                    break;
+                case 'thud':
+                    SoundManager.thud();
+                    break;
+                case 'horrorImpact':
+                    SoundManager.horrorImpact();
+                    break;
+                case 'type':
+                    SoundManager.type();
+                    break;
+                case 'knock':
+                    SoundManager.knock();
+                    break;
+            }
+            lastPlayed.textContent = '最終再生: ' + name;
+            updateAudioStatus();
+        }
+
+        // ============================================================
+        // 停止機能
+        // ============================================================
+
+        // プログラム生成効果音をすべて停止（AudioContextを作り直す）
+        function stopGeneratedSE() {
+            stopAmbient();
+            if (SoundManager.ctx) {
+                SoundManager.ctx.close().catch(() => {});
+                SoundManager.ctx = null;
+                SoundManager.cache = {};
+            }
+            // 新しいAudioContextは次の再生時に自動生成される
+            updateAudioStatus();
+            lastPlayed.textContent = '最終再生: すべて停止';
+        }
+
+        // 再生中のMP3ファイルを追跡
+        const activeAudioElements = new Set();
+
+        // playCustomSE をラップして追跡できるようにする
+        const originalPlayCustomSE = SoundManager.playCustomSE.bind(SoundManager);
+        SoundManager.playCustomSE = function(url, rate) {
+            ensureAudioContext();
+            try {
+                const audio = new Audio(url);
+                if (rate !== undefined) audio.playbackRate = rate;
+                audio.volume = Math.min(1.0, this.getSEVol());
+                
+                // 再生終了時にSetから削除
+                audio.addEventListener('ended', () => {
+                    activeAudioElements.delete(audio);
+                });
+                audio.addEventListener('error', () => {
+                    activeAudioElements.delete(audio);
+                });
+                
+                activeAudioElements.add(audio);
+                audio.play().catch(e => {
+                    activeAudioElements.delete(audio);
+                    console.warn("Custom SE play failed:", e);
+                });
+            } catch (e) {
+                console.warn("Custom SE play failed:", e);
+            }
+        };
+
+        // 外部MP3ファイルをすべて停止
+        function stopFileSE() {
+            activeAudioElements.forEach(audio => {
+                try {
+                    audio.pause();
+                    audio.currentTime = 0;
+                } catch(e) {}
+            });
+            activeAudioElements.clear();
+            lastPlayed.textContent = '最終再生: ファイル再生 停止';
+        }
+
+        // ============================================================
+        // 外部MP3ファイル一覧
+        // ============================================================
+        const seFiles = [
+            { name: 'ノック音', file: 'assets/se/木のドアをノック2.mp3' },
+            { name: '盾で防御', file: 'assets/se/盾で防御.mp3' },
+            { name: 'スイッチ', file: 'assets/se/スイッチを押す.mp3' },
+            { name: 'ガラスヒビ', file: 'assets/se/ガラスにヒビが入る.mp3' },
+            { name: 'ビープ音', file: 'assets/se/ビープ音1.mp3' },
+            { name: 'ドアを開ける', file: 'assets/se/ドアを開ける3.mp3' },
+            { name: 'ドアをドンドン', file: 'assets/se/ドアをドンドン叩く.mp3' },
+            { name: '鍵を開ける', file: 'assets/se/鍵を開ける1.mp3' },
+            { name: '街の道路', file: 'assets/se/街の道路.mp3' }
+        ];
+
+        const fileListEl = document.getElementById('file-se-list');
+        seFiles.forEach(sf => {
+            const btn = document.createElement('button');
+            btn.className = 'file-btn';
+            btn.innerHTML = `<span class="icon">🎵</span><span>${sf.name}</span><span class="filename">${sf.file.replace('assets/se/', '')}</span>`;
+            btn.addEventListener('click', () => {
+                ensureAudioContext();
+                SoundManager.playCustomSE(sf.file);
+                lastPlayed.textContent = '最終再生: ' + sf.name;
+                updateAudioStatus();
+            });
+            fileListEl.appendChild(btn);
+        });
+
+        // ============================================================
+        // 環境音（BGM）再生
+        // ============================================================
+        const ambientIndicator = document.getElementById('ambient-indicator');
+        const ambientStatus = document.getElementById('ambient-status');
+        let currentAmbientDay = 0;
+
+        function playAmbient(day) {
+            ensureAudioContext();
+            AmbientManager.play(day);
+            currentAmbientDay = day;
+            ambientIndicator.classList.add('visible');
+            ambientStatus.textContent = `Day ${day} 再生中`;
+            lastPlayed.textContent = '最終再生: 環境音 Day ' + day;
+            updateAudioStatus();
+
+            // アクティブ表示
+            document.querySelectorAll('.ambient-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+        }
+
+        function stopAmbient() {
+            AmbientManager.stop();
+            currentAmbientDay = 0;
+            ambientIndicator.classList.remove('visible');
+            ambientStatus.textContent = '停止中';
+            document.querySelectorAll('.ambient-btn').forEach(btn => btn.classList.remove('active'));
+            lastPlayed.textContent = '最終再生: 環境音 停止';
+        }
+
+        // ============================================================
+        // 定期的にAudioContext状態を更新
+        // ============================================================
+        setInterval(updateAudioStatus, 2000);
+
+        // 初期化
+        updateAudioStatus();
+        console.log('🎵 サウンドテストページが読み込まれました');
+    </script>
+</body>
+</html>

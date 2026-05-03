@@ -493,6 +493,7 @@ function startGame() {
     } else {
         sessionStorage.removeItem('skipPhase');
         if (p === 'day1') {
+            setNetworkStatus(true);
             setTimeout(() => startDay1(), 500);
         } else if (p === 'hacking') {
             gameState.day = 2;
@@ -526,6 +527,7 @@ function startGame() {
             document.getElementById('desktop').style.display = 'block';
             document.getElementById('room-view').style.display = 'none';
             document.getElementById('room-dialogue').innerHTML = '';
+            setNetworkStatus(true);
             setTimeout(function() {
                 AmbientManager.play(2);
                 showDesktopDialogue('（PCを起動しよう...）');
@@ -565,6 +567,7 @@ function startGame() {
         } else if (p === 'day3') {
             gameState.day = 3;
             scenarioStarted = true; isWifiOff = true; scenarioPhase = 2;
+            setNetworkStatus(true);
             setTimeout(() => { AmbientManager.play(3); startDay3(); }, 500);
         } else if (p === 'day3_room') {
             gameState.day = 3;
@@ -575,6 +578,7 @@ function startGame() {
             document.getElementById('btn-return-reality').style.display = 'block';
             isRoomExplorable = true;
             document.getElementById('room-dialogue').innerHTML = "（部屋の気になる場所をクリックして調べよう）";
+            setNetworkStatus(true);
             setTimeout(() => { AmbientManager.play(3); }, 500);
         }
     }
