@@ -84,13 +84,28 @@ async function waitClick() {
             resolve();
             return;
         }
-        const listener = (e) => {
+        const onMouseDown = (e) => {
             // ★ ESCメニューやセーブ/ロード画面が開いている間はクリックを無視
             if (_isMenuOpen) return;
-            document.removeEventListener('mousedown', listener);
+            cleanup();
             resolve();
         };
-        document.addEventListener('mousedown', listener);
+        const onKeyDown = (e) => {
+            // Enter または Space で会話を進める
+            if (e.key === 'Enter' || e.key === ' ') {
+                // ESCメニューやセーブ/ロード画面が開いている間は無視
+                if (_isMenuOpen) return;
+                e.preventDefault();
+                cleanup();
+                resolve();
+            }
+        };
+        const cleanup = () => {
+            document.removeEventListener('mousedown', onMouseDown);
+            document.removeEventListener('keydown', onKeyDown);
+        };
+        document.addEventListener('mousedown', onMouseDown);
+        document.addEventListener('keydown', onKeyDown);
     });
 }
 
