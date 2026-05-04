@@ -788,10 +788,17 @@ window.addEventListener('load', () => {
         });
     }
 
-    // タイトル画面「遊び方」
+    // タイトル画面「遊び方」 - 初回光るアニメーション制御
     const howtoBtn = document.getElementById('title-howto-btn');
     if (howtoBtn) {
+        // 初回起動時（遊び方を一度も見たことがない）は光るアニメーションを付ける
+        if (!localStorage.getItem('pchack_has_seen_howto')) {
+            howtoBtn.classList.add('howto-btn-glow');
+        }
         howtoBtn.addEventListener('click', () => {
+            // 遊び方を開いたら光るアニメーションを消す（二度と光らない）
+            howtoBtn.classList.remove('howto-btn-glow');
+            localStorage.setItem('pchack_has_seen_howto', '1');
             document.getElementById('title-screen').style.display = 'none';
             document.getElementById('howto-screen').style.display = 'flex';
         });

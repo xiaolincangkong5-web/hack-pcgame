@@ -1153,3 +1153,14 @@ body {
     color: #fff;
     box-shadow: 0 0 8px rgba(52,199,89,0.5);
 }
+
+/* 遊び方ボタン光るアニメーション（初回のみ） */
+@keyframes pulse-glow {
+    0%, 100% { box-shadow: 0 0 5px rgba(0,255,65,0.3); }
+    50% { box-shadow: 0 0 25px rgba(0,255,65,0.7); }
+}
+.howto-btn-glow {
+    animation: pulse-glow 2s ease-in-out infinite !important;
+    border-color: #00ff41 !important;
+    color: #00ff41 !important;
+}
