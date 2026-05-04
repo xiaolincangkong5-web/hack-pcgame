@@ -354,6 +354,9 @@ function renderPlayerWarpMenu() {
         html += '<div style="font-size:0.85rem; font-weight:bold; color:#5ac8fa; padding:4px 0; border-bottom:1px solid rgba(90,200,250,0.2); margin-bottom:6px;">Day ' + day + '</div>';
 
         dayDests.forEach(function(d) {
+            // ★ Day2ハッカー再接続はESCメニューに表示しない（没データのため）
+            if (d.skip === 'free_explore') return;
+            
             const isUnlocked = unlocked.includes(d.skip);
             if (isUnlocked) {
                 // ★ 解放済み：ワープ可能なボタン

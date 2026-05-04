@@ -14,6 +14,7 @@ async function triggerHackingSequence() {
         if (scenarioStarted || gameState.day !== 2 || isVirusSequenceRunning) return;
         // ★ Day2ハッキング演出に到達したので解放
         unlockWarpDestination('hacking');
+        unlockWarpDestination('day2_desktop');
     
         if (gameState.virusSequenceSeen) {
             startScenario();

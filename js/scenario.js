@@ -30,8 +30,6 @@ async function startScenario() {
     lockSave();
     scenarioStarted = true; scenarioPhase = 1;
     gameState.isHackingSequenceRunning = true;
-    // ★ Day2デスクトップ探索に到達したので解放
-    unlockWarpDestination('day2_desktop');
     
     // --- 【ステップ2】本格的な侵入演出 ---
     if (!gameState.intrusionSequenceSeen) {
@@ -295,11 +293,7 @@ async function startDay3() {
     await sleep(1500);
     await typeInNotepad(noteWin, "Hacker: ただし...時間はあまりないぞ。\n");
     await sleep(1500);
-    await typeInNotepad(noteWin, "\nHacker: これが終わったら...\n");
-    await sleep(1000);
-    await typeInNotepad(noteWin, "Hacker: お前の番だ。\n");
-    await sleep(2000);
-    
+
     // Day 3 最終局面として部屋側の専用分岐を有効化
     gameState.isFinalChoicePhase = true;
     // ★ Day3最終選択に到達したので解放

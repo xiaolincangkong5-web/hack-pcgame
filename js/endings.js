@@ -447,6 +447,7 @@ async function triggerDiscardEnding() {
     if (choice === 'back') {
         isBlockAllInteraction = false;
         isDialogueRunning = false;
+        isDiscardEndingRunning = false;
         return;
     }
     
@@ -588,9 +589,9 @@ async function triggerDiscardEnding() {
     }
     
     // 主人公のセリフ（room-viewのダイアログで表示）
-    await showRoomDialogue("...よし。PC新調したことだしぃ？");
-    await showRoomDialogue("また、自由なネットライフ生活（？）");
-    await showRoomDialogue("スタートだっっ！");
+    await showRoomDialogue("...よし。PC新調したことだし");
+    await showRoomDialogue("また、自由なネットライフ生活");
+    await showRoomDialogue("スタートだっ！");
     
     // === フェーズ4: ノック音 ===
     try {
