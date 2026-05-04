@@ -302,7 +302,6 @@ async function triggerNeighborEnding() {
     isHallwayExplorable = true;
     isBlockAllInteraction = false;
     document.getElementById('hallway-dialogue').innerHTML = "（気になる...でも、今はどうするか考えないと。）";
-    unlockAchievement('ending_neighbor');
     unlockSave();
 }
 
@@ -400,7 +399,8 @@ async function triggerPhoneCallSequence() {
     await showEndingScreen('neighbor',
         '隣人END',
         '#ff0000',
-        '助けを求めた先にいたのは、\nより深い闇だった。\n\n向かいの住人は、ただの偶然の住人ではなかった。\nハッカーは、もっと近くにいたのだ。\n\n向かいのあの部屋で、\nすべては仕組まれていた。\n\n君の最後の選択は、\n運命の扉を開けてしまった。'
+        '助けを求めた先にいたのは、\nより深い闇だった。\n\n向かいの住人は、ただの偶然の住人ではなかった。\nハッカーは、もっと近くにいたのだ。\n\n向かいのあの部屋で、\nすべては仕組まれていた。\n\n君の最後の選択は、\n運命の扉を開けてしまった。',
+        'ending_neighbor'
     );
     unlockSave();
 }
