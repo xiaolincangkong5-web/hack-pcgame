@@ -616,6 +616,19 @@ function renderAchievements() {
 
 // 起動時の処理
 window.addEventListener('load', () => {
+    // タスクバーの時計更新（ワープ時の早期リターンより前に定義しておく）
+    const updateTime = () => {
+        const now = new Date();
+        const timeStr = now.getHours().toString().padStart(2, '0') + ':' + now.getMinutes().toString().padStart(2, '0');
+        const dateStr = (now.getMonth() + 1) + '/' + now.getDate();
+        const timeEl = document.getElementById('current-time');
+        const dateEl = document.getElementById('current-date');
+        if (timeEl) timeEl.textContent = timeStr;
+        if (dateEl) dateEl.textContent = dateStr;
+    };
+    updateTime();
+    setInterval(updateTime, 1000);
+
     // ★ ワープメニューからのスキップ：エピレプシー警告を自動通過し、直接ゲーム開始
     //    renderWarpMenu() が skipTo() の直前に pchack_skip_warning をセットする
     const skipWarning = sessionStorage.getItem('pchack_skip_warning');
@@ -625,6 +638,8 @@ window.addEventListener('load', () => {
         document.getElementById('epilepsy-warning').style.display = 'none';
         // タイトル画面も表示せず、直接ゲームを開始（skipPhase がセットされているので該当シーンへワープする）
         SoundManager.init();
+        // ★ ワープ時も時計を更新してから startGame() へ
+        updateTime();
         startGame();
         return; // 以降の通常初期化処理をスキップ
     }
@@ -735,19 +750,6 @@ window.addEventListener('load', () => {
 
     setNetworkStatus(true);
     
-    // タスクバーの時計更新
-    const updateTime = () => {
-        const now = new Date();
-        const timeStr = now.getHours().toString().padStart(2, '0') + ':' + now.getMinutes().toString().padStart(2, '0');
-        const dateStr = (now.getMonth() + 1) + '/' + now.getDate();
-        const timeEl = document.getElementById('current-time');
-        const dateEl = document.getElementById('current-date');
-        if (timeEl) timeEl.textContent = timeStr;
-        if (dateEl) dateEl.textContent = dateStr;
-    };
-    updateTime();
-    setInterval(updateTime, 1000);
-
     // エピレプシー警告の「ゲームを開始」ボタン → タイトル画面へ
     const okBtn = document.getElementById('epilepsy-ok-btn');
     if (okBtn) {
