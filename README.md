@@ -4,7 +4,7 @@
 
 デスクトップ画面を操作しながら、ハッカーの脅迫に立ち向かう**没入型デスクトップホラーゲーム**です。
 
-> 🎮 **プレイはこちら**: [https://xiaolincangkong5-web.github.io/hack-pcgame/](https://xiaolincangkong5-web.github.io/hack-pcgame/)
+> 🎮 **プレイはこちら**: [https://2bta-web.github.io/hack-pcgame/](https://2bta-web.github.io/hack-pcgame/)
 
 ---
 
@@ -86,6 +86,6 @@ assets/
 
 MIT License
 
-Copyright (c) 2025 xiaolincangkong5-web
+Copyright (c) 2025 2bta-web
 
 本作はフィクションです。登場する人物・団体・名称は架空のものであり、実在のものとは関係ありません。
