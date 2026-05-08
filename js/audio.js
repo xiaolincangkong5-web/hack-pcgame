@@ -128,11 +128,11 @@ const SoundManager = {
         });
     },
 
-    playCustomSE(url, rate = 1.0) {
+    playCustomSE(url, rate = 1.0, volScale = 1.0) {
         try {
             const audio = new Audio(url);
             audio.playbackRate = rate;
-            audio.volume = Math.min(1.0, this.getSEVol());
+            audio.volume = Math.min(1.0, this.getSEVol() * volScale);
             audio.play().catch(e => {
                 console.warn("Custom SE play failed (async):", e);
             });
@@ -143,9 +143,10 @@ const SoundManager = {
 
     playShieldImpact() {
         const url = 'assets/se/盾で防御.mp3';
+        const volScale = 1/3; // フライパン音の音量を1/3に
         // file://プロトコルではfetchがCORSエラーになるので、直接playCustomSEを使用
         if (location.protocol === 'file:') {
-            this.playCustomSE(url, 0.6);
+            this.playCustomSE(url, 0.6, volScale);
             return;
         }
         if (!this.ctx) this.init();
@@ -159,9 +160,9 @@ const SoundManager = {
             const delay = this.ctx.createDelay();
             delay.delayTime.value = 0.15;
             const feedback = this.ctx.createGain();
-            feedback.gain.value = 0.4;
+            feedback.gain.value = 0.4 * volScale;
             const wet = this.ctx.createGain();
-            wet.gain.value = 0.4;
+            wet.gain.value = 0.4 * volScale;
             source.connect(filter);
             filter.connect(this.ctx.destination);
             filter.connect(delay);
@@ -172,7 +173,7 @@ const SoundManager = {
             source.start(0);
         }).catch(e => {
             console.warn("Shield SE Web Audio failed, falling back to playCustomSE:", e);
-            this.playCustomSE(url, 0.6);
+            this.playCustomSE(url, 0.6, volScale);
         });
     }
 };
