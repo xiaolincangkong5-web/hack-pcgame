@@ -241,9 +241,11 @@ function showPasswordDialog() {
     const input = overlay.querySelector('#password-field');
     const errEl = overlay.querySelector('#password-error');
 
-    const closeDialog = () => overlay.remove();
+    const closeDialog = () => { SoundManager.beep(600, 0.05, 'sine', 0.02); overlay.remove(); };
 
     const checkPassword = async () => {
+        SoundManager.beep(600, 0.05, 'sine', 0.02);
+
         const val = input.value.trim();
         if (val === CONSTANTS.PASSWORD) {
             closeDialog();

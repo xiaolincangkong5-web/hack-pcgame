@@ -107,14 +107,14 @@ function buildSettingsMenu() {
                 '<label>環境音 (BGM): </label>' +
                 '<span id="bgm-vol-debug">100%</span>' +
             '</div>' +
-            '<input type="range" id="bgm-slider-debug" min="0" max="300" value="100" style="width:100%;" oninput="gameState.bgmVolume = parseInt(this.value); document.getElementById(\'bgm-vol-debug\').innerText = this.value + \'%\'; AmbientManager.updateVolume(); saveVolumeSettings();">' +
+            '<input type="range" id="bgm-slider-debug" min="0" max="300" value="100" style="width:100%;" oninput="gameState.bgmVolume = parseInt(this.value); document.getElementById(\'bgm-vol-debug\').innerText = this.value + \'%\'; AmbientManager.updateVolume(); saveVolumeSettings(); SoundManager.beep(400, 0.03, \'sine\', 0.01);">' +
         '</div>' +
         '<div class="volume-control" style="margin-bottom:20px;">' +
             '<div style="display:flex; justify-content:space-between;">' +
                 '<label>テキスト速度: </label>' +
                 '<span id="speed-val">50</span>' +
             '</div>' +
-            '<input type="range" min="10" max="110" value="50" step="10" style="width:100%;" oninput="gameState.textDelay = (110 - this.value); document.getElementById(\'speed-val\').innerText = (this.value == 110 ? \'最速\' : this.value)">' +
+            '<input type="range" min="10" max="110" value="50" step="10" style="width:100%;" oninput="gameState.textDelay = (110 - this.value); document.getElementById(\'speed-val\').innerText = (this.value == 110 ? \'最速\' : this.value); SoundManager.beep(400, 0.03, \'sine\', 0.01);">' +
         '</div>' +
         '<div style="display:flex; gap:8px; margin-top:8px;">' +
             '<button id="settings-warp-btn" style="flex:1; background:rgba(255,200,50,0.1); color:#ffc832; border:1px solid rgba(255,200,50,0.3); padding:8px 12px; border-radius:6px; cursor:pointer; font-size:0.85rem;" onmouseenter="this.style.borderColor=\'rgba(255,200,50,0.6)\'" onmouseleave="this.style.borderColor=\'rgba(255,200,50,0.3)\'">🚀 ワープ</button>' +
@@ -127,6 +127,7 @@ function buildSettingsMenu() {
     const quitBtn = document.getElementById('settings-quit-btn');
     if (quitBtn) {
         quitBtn.onclick = function() {
+            SoundManager.beep(600, 0.05, 'sine', 0.02);
             returnToTitle();
         };
     }
@@ -135,6 +136,7 @@ function buildSettingsMenu() {
     const warpBtn = document.getElementById('settings-warp-btn');
     if (warpBtn) {
         warpBtn.onclick = function() {
+            SoundManager.beep(600, 0.05, 'sine', 0.02);
             document.getElementById('settings-menu').style.display = 'none';
             renderPlayerWarpMenu();
             document.getElementById('player-warp-menu').style.display = 'flex';
@@ -755,6 +757,7 @@ window.addEventListener('load', () => {
     if (okBtn) {
         okBtn.addEventListener('click', () => {
             SoundManager.init();
+            SoundManager.beep(600, 0.05, 'sine', 0.02);
             // エピレプシー警告を非表示、タイトル画面を表示
             document.getElementById('epilepsy-warning').style.display = 'none';
             const title = document.getElementById('title-screen');
@@ -785,6 +788,7 @@ window.addEventListener('load', () => {
     const backBtn = document.getElementById('ach-back-btn');
     if (backBtn) {
         backBtn.addEventListener('click', () => {
+            SoundManager.beep(600, 0.05, 'sine', 0.02);
             document.getElementById('achievement-screen').style.display = 'none';
             document.getElementById('title-screen').style.display = 'flex';
         });
@@ -810,6 +814,7 @@ window.addEventListener('load', () => {
     const howtoBackBtn = document.getElementById('howto-back-btn');
     if (howtoBackBtn) {
         howtoBackBtn.addEventListener('click', () => {
+            SoundManager.beep(600, 0.05, 'sine', 0.02);
             document.getElementById('howto-screen').style.display = 'none';
             document.getElementById('title-screen').style.display = 'flex';
         });
@@ -860,11 +865,13 @@ window.addEventListener('load', () => {
             document.body.appendChild(overlay);
 
             document.getElementById('clear-confirm-btn').onclick = () => {
+                SoundManager.beep(400, 0.1, 'square', 0.03);
                 clearAllStorage();
                 document.body.removeChild(overlay);
                 location.reload();
             };
             document.getElementById('clear-cancel-btn').onclick = () => {
+                SoundManager.beep(600, 0.05, 'sine', 0.02);
                 document.body.removeChild(overlay);
             };
         });
@@ -874,6 +881,7 @@ window.addEventListener('load', () => {
     const titleSettingsBack = document.getElementById('title-settings-back-btn');
     if (titleSettingsBack) {
         titleSettingsBack.addEventListener('click', () => {
+            SoundManager.beep(600, 0.05, 'sine', 0.02);
             document.getElementById('title-settings-screen').style.display = 'none';
             document.getElementById('title-screen').style.display = 'flex';
         });

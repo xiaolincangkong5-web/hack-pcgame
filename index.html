@@ -43,12 +43,12 @@
             <div style="font-size:2.5rem; font-weight:bold; color:#00ff41; margin-bottom:8px; text-shadow:0 0 20px rgba(0,255,65,0.5); letter-spacing:4px;">hack.PCgame</div>
             <div style="font-size:0.9rem; color:rgba(255,255,255,0.4); margin-bottom:40px; letter-spacing:2px;">— ハッキングされたPCを体験するホラーゲーム —</div>
             <div style="display:flex; flex-direction:column; gap:14px; align-items:center;">
-                <button id="title-start-btn" style="background:#00ff41; color:#000; border:none; padding:14px 60px; font-size:1.1rem; border-radius:8px; cursor:pointer; font-weight:bold; width:260px; transition:all 0.2s;" onmouseenter="this.style.transform='scale(1.05)'" onmouseleave="this.style.transform='scale(1)'">🆕 新しく始める</button>
+                <button id="title-start-btn" style="background:#00ff41; color:#000; border:none; padding:14px 60px; font-size:1.1rem; border-radius:8px; cursor:pointer; font-weight:bold; width:260px; transition:all 0.2s;" onmouseenter="this.style.transform='scale(1.05)'" onmouseleave="this.style.transform='scale(1)'" onclick="SoundManager.beep(600, 0.05, 'sine', 0.02)">🆕 新しく始める</button>
                 <div style="font-size:0.8rem; color:rgba(0,255,65,0.5); margin-top:-8px; margin-bottom:4px;">💡 初めての方は下の「遊び方」をご覧ください</div>
-                <button id="title-achievements-btn" style="background:transparent; color:rgba(255,255,255,0.7); border:1px solid rgba(255,255,255,0.2); padding:12px 40px; font-size:0.95rem; border-radius:8px; cursor:pointer; width:260px; transition:all 0.2s;" onmouseenter="this.style.borderColor='#ffd700'; this.style.color='#ffd700'" onmouseleave="this.style.borderColor='rgba(255,255,255,0.2)'; this.style.color='rgba(255,255,255,0.7)'">🏆 実績を見る</button>
-                <button id="title-settings-btn" style="background:transparent; color:rgba(255,255,255,0.7); border:1px solid rgba(255,255,255,0.2); padding:12px 40px; font-size:0.95rem; border-radius:8px; cursor:pointer; width:260px; transition:all 0.2s;" onmouseenter="this.style.borderColor='#5ac8fa'; this.style.color='#5ac8fa'" onmouseleave="this.style.borderColor='rgba(255,255,255,0.2)'; this.style.color='rgba(255,255,255,0.7)'">⚙ 設定</button>
-                <button id="title-howto-btn" style="background:transparent; color:rgba(255,255,255,0.5); border:1px solid rgba(255,255,255,0.15); padding:12px 40px; font-size:0.95rem; border-radius:8px; cursor:pointer; width:260px; transition:all 0.2s;" onmouseenter="this.style.borderColor='#00ff41'; this.style.color='#00ff41'" onmouseleave="this.style.borderColor='rgba(255,255,255,0.15)'; this.style.color='rgba(255,255,255,0.5)'">⭐ 📖 遊び方（推奨）</button>
-                <button id="title-clear-btn" style="background:transparent; color:rgba(255,80,80,0.35); border:1px solid rgba(255,80,80,0.15); padding:8px 30px; font-size:0.8rem; border-radius:6px; cursor:pointer; width:200px; transition:all 0.2s; margin-top:10px;" onmouseenter="this.style.borderColor='rgba(255,80,80,0.5)'; this.style.color='rgba(255,80,80,0.7)'" onmouseleave="this.style.borderColor='rgba(255,80,80,0.15)'; this.style.color='rgba(255,80,80,0.35)'">🗑 ストレージをクリア</button>
+                <button id="title-achievements-btn" style="background:transparent; color:rgba(255,255,255,0.7); border:1px solid rgba(255,255,255,0.2); padding:12px 40px; font-size:0.95rem; border-radius:8px; cursor:pointer; width:260px; transition:all 0.2s;" onmouseenter="this.style.borderColor='#ffd700'; this.style.color='#ffd700'" onmouseleave="this.style.borderColor='rgba(255,255,255,0.2)'; this.style.color='rgba(255,255,255,0.7)'" onclick="SoundManager.beep(600, 0.05, 'sine', 0.02)">🏆 実績を見る</button>
+                <button id="title-settings-btn" style="background:transparent; color:rgba(255,255,255,0.7); border:1px solid rgba(255,255,255,0.2); padding:12px 40px; font-size:0.95rem; border-radius:8px; cursor:pointer; width:260px; transition:all 0.2s;" onmouseenter="this.style.borderColor='#5ac8fa'; this.style.color='#5ac8fa'" onmouseleave="this.style.borderColor='rgba(255,255,255,0.2)'; this.style.color='rgba(255,255,255,0.7)'" onclick="SoundManager.beep(600, 0.05, 'sine', 0.02)">⚙ 設定</button>
+                <button id="title-howto-btn" style="background:transparent; color:rgba(255,255,255,0.5); border:1px solid rgba(255,255,255,0.15); padding:12px 40px; font-size:0.95rem; border-radius:8px; cursor:pointer; width:260px; transition:all 0.2s;" onmouseenter="this.style.borderColor='#00ff41'; this.style.color='#00ff41'" onmouseleave="this.style.borderColor='rgba(255,255,255,0.15)'; this.style.color='rgba(255,255,255,0.5)'" onclick="SoundManager.beep(600, 0.05, 'sine', 0.02)">⭐ 📖 遊び方（推奨）</button>
+                <button id="title-clear-btn" style="background:transparent; color:rgba(255,80,80,0.35); border:1px solid rgba(255,80,80,0.15); padding:8px 30px; font-size:0.8rem; border-radius:6px; cursor:pointer; width:200px; transition:all 0.2s; margin-top:10px;" onmouseenter="this.style.borderColor='rgba(255,80,80,0.5)'; this.style.color='rgba(255,80,80,0.7)'" onmouseleave="this.style.borderColor='rgba(255,80,80,0.15)'; this.style.color='rgba(255,80,80,0.35)'" onclick="SoundManager.beep(600, 0.05, 'sine', 0.02)">🗑 ストレージをクリア</button>
             </div>
             <div style="margin-top:50px; font-size:0.75rem; color:rgba(255,255,255,0.25); line-height:1.6;">
                 このゲームはフィクションです。<br>
@@ -75,7 +75,7 @@
                     <span id="title-bgm-vol">100%</span>
                 </div>
                 <input type="range" id="title-bgm-slider" min="0" max="300" value="100" style="width:100%;"
-                    oninput="gameState.bgmVolume = parseInt(this.value); document.getElementById('title-bgm-vol').innerText = this.value + '%'; AmbientManager.updateVolume(); saveVolumeSettings();">
+                    oninput="gameState.bgmVolume = parseInt(this.value); document.getElementById('title-bgm-vol').innerText = this.value + '%'; AmbientManager.updateVolume(); saveVolumeSettings(); SoundManager.beep(400, 0.03, 'sine', 0.01);">
             </div>
             <div class="volume-control" style="margin-bottom:30px;">
                 <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
@@ -83,7 +83,7 @@
                     <span id="title-speed-val">90</span>
                 </div>
                 <input type="range" id="title-speed-slider" min="10" max="110" value="90" step="10" style="width:100%;"
-                    oninput="gameState.textDelay = (110 - this.value); document.getElementById('title-speed-val').innerText = (this.value == 110 ? '最速' : this.value)">
+                    oninput="gameState.textDelay = (110 - this.value); document.getElementById('title-speed-val').innerText = (this.value == 110 ? '最速' : this.value); SoundManager.beep(400, 0.03, 'sine', 0.01);">
             </div>
             <button id="title-settings-back-btn" style="background:transparent; color:rgba(255,255,255,0.6); border:1px solid rgba(255,255,255,0.2); padding:10px 30px; border-radius:6px; cursor:pointer; font-size:0.9rem; width:100%;" onmouseenter="this.style.borderColor='rgba(255,255,255,0.5)'" onmouseleave="this.style.borderColor='rgba(255,255,255,0.2)'">← タイトルに戻る</button>
         </div>
@@ -94,7 +94,7 @@
         <div style="max-width:500px; width:100%;">
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:30px;">
                 <div style="font-size:1.5rem; font-weight:bold; color:#5ac8fa;">💾 セーブ</div>
-                <button id="save-back-btn" style="background:transparent; color:rgba(255,255,255,0.6); border:1px solid rgba(255,255,255,0.2); padding:8px 20px; border-radius:6px; cursor:pointer; font-size:0.85rem;">← 戻る</button>
+                <button id="save-back-btn" style="background:transparent; color:rgba(255,255,255,0.6); border:1px solid rgba(255,255,255,0.2); padding:8px 20px; border-radius:6px; cursor:pointer; font-size:0.85rem;" onclick="SoundManager.beep(600, 0.05, 'sine', 0.02)">← 戻る</button>
             </div>
             <div id="save-slot-list" style="display:flex; flex-direction:column; gap:10px;"></div>
         </div>
@@ -105,7 +105,7 @@
         <div style="max-width:500px; width:100%;">
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:30px;">
                 <div style="font-size:1.5rem; font-weight:bold; color:#00ff41;">📂 ロード</div>
-                <button id="load-back-btn" style="background:transparent; color:rgba(255,255,255,0.6); border:1px solid rgba(255,255,255,0.2); padding:8px 20px; border-radius:6px; cursor:pointer; font-size:0.85rem;">← 戻る</button>
+                <button id="load-back-btn" style="background:transparent; color:rgba(255,255,255,0.6); border:1px solid rgba(255,255,255,0.2); padding:8px 20px; border-radius:6px; cursor:pointer; font-size:0.85rem;" onclick="SoundManager.beep(600, 0.05, 'sine', 0.02)">← 戻る</button>
             </div>
             <div id="load-slot-list" style="display:flex; flex-direction:column; gap:10px;"></div>
         </div>
